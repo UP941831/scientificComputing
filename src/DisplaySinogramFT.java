@@ -4,7 +4,7 @@ import java.util.Arrays ;
 import java.awt.* ;
 import javax.swing.* ;
 
-public class Display2dFT extends JPanel {
+public class DisplaySinogramFT extends JPanel {
 
     public static int CELL_SIZE = 1 ;
 
@@ -12,7 +12,8 @@ public class Display2dFT extends JPanel {
 
     double [] [] ftRe, ftIm ;
 
-    Display2dFT(double [] [] ftRe, double [] [] ftIm, int n, String title) {
+    DisplaySinogramFT(double [] [] ftRe, double [] [] ftIm,
+                      int n, String title) {
 
         setPreferredSize(new Dimension(CELL_SIZE * n, CELL_SIZE * n)) ;
 
@@ -22,8 +23,14 @@ public class Display2dFT extends JPanel {
         frame.pack();
         frame.setVisible(true);
 
-        this.ftRe = ftRe ;
-        this.ftIm = ftIm ;
+        this.ftRe = new double [n] [n] ;
+        this.ftIm = new double [n] [n] ;
+        for(int i = 0 ; i < n ; i++) {
+            for(int j = 0 ; j < n ; j++) {
+                this.ftRe [i] [j] = ftRe [i] [j] ;
+                this.ftIm [i] [j] = ftIm [i] [j] ;
+            }
+        }
 
         this.n = n ;
 
@@ -49,11 +56,9 @@ public class Display2dFT extends JPanel {
                 // brightness dependent on modulus, and hue on
                 // red-green-blue color wheel determined by argument.
 
-                int iSigned = i < n/2 ? i : i - n ;
                 int jSigned = j < n/2 ? j : j - n ;
-                double re = ftRe [n/2 + iSigned] [n/2 - 1 - jSigned] ;
-
-                double im = ftIm [n/2 + iSigned] [n/2 - 1 - jSigned] ;
+                double re = ftRe [i] [n/2 - 1 - jSigned] ;
+                double im = ftIm [i] [n/2 - 1 - jSigned] ;
 
                 hue.set(re, im) ;
                 double mod = mod(re, im) ;

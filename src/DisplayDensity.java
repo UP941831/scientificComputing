@@ -1,3 +1,4 @@
+
 import java.awt.* ;
 import javax.swing.* ;
 
@@ -92,3 +93,4 @@ public class DisplayDensity extends JPanel {
         }
     }
 }
+

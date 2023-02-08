@@ -5,7 +5,7 @@ public class FFTImageFiltering {
     public static void main(String [] args) throws Exception {
 
         double[][] X = new double[N][N];
-        ReadPGM.read(X, "C:\\Users\\dangr\\IdeaProjects\\untitled\\src\\wolf.pgm", N);
+        ReadPGM.read(X, "C:\\Users\\dangr\\OneDrive\\Desktop\\Coding\\InteliJ - Java\\ScientificComputing\\src\\wolf.pgm", N);
 
         DisplayDensity display =
                 new DisplayDensity(X, N, "Original Image");
@@ -63,3 +63,4 @@ public class FFTImageFiltering {
     }
 
 }
+//low pass FFT filter
