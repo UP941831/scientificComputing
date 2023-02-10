@@ -1,4 +1,3 @@
-
 import java.util.Arrays ;
 
 import java.awt.* ;
@@ -76,7 +75,7 @@ public class Sinogram {
         }
 
         for(int iTheta = 0 ; iTheta < N ; iTheta++) {
-             //1D fast fourier transform on a row
+            //1D fast fourier transform on a row
             FFT.fft1d(sinogramFTRe[iTheta], sinogramFTIm[iTheta], 1);
         }
 
@@ -90,12 +89,22 @@ public class Sinogram {
                 // multiply Sinogram fourier transform by abs(kSigned)
                 sinogramFTRe [iTheta] [iK] *= Math.abs(kSigned) ;
                 sinogramFTIm [iTheta] [iK] *= Math.abs(kSigned) ;
-
+                sinogramFTRe [iTheta] [iK] *= Math.cos(Math.PI * kSigned / (2 * CUTOFF));
+                sinogramFTIm [iTheta] [iK] *= Math.cos(Math.PI * kSigned / (2 * CUTOFF));
             }
+        }
+
+        for(int iTheta = 0 ; iTheta < N ; iTheta++) {
+            //1D fast fourier transform on a row
+            FFT.fft1d(sinogramFTRe[iTheta], sinogramFTIm[iTheta], -1);
         }
 
         DisplayDensity display6 =
                 new DisplayDensity(sinogramFTRe, N, "Filtered sinogram");
+
+
+
+
 
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -103,8 +112,7 @@ public class Sinogram {
 
 
         double [] [] backProjection = new double [N] [N] ;
-        backProject(backProjection, sinogram) ;
-
+        backProject(backProjection, sinogramFTRe) ;
         // Normalize reconstruction, to have same sum as inferred for
         // original density
 
@@ -117,7 +125,8 @@ public class Sinogram {
 
         DisplayDensity display5 =
                 new DisplayDensity(backProjection, N,
-                        "Back projected sinogram") ;
+                        "Back projected sinogram",
+                        GREY_SCALE_LO, GREY_SCALE_HI) ;
     }
 
     static void backProject(double [] [] projection, double [] [] sinogram) {
@@ -266,4 +275,3 @@ public class Sinogram {
     }
 
 }
-
