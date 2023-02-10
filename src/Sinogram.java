@@ -87,20 +87,23 @@ public class Sinogram {
         for(int iTheta = 0 ; iTheta < N ; iTheta++) {
             for(int iK = 0 ; iK < N ; iK++) {
                 int kSigned = iK <= N/2 ? iK : iK - N ;
-                // multiply Sinogram FT by abs(kSigned)
+                // multiply Sinogram fourier transform by abs(kSigned)
                 sinogramFTRe [iTheta] [iK] *= Math.abs(kSigned) ;
                 sinogramFTIm [iTheta] [iK] *= Math.abs(kSigned) ;
+
             }
         }
 
         DisplayDensity display6 =
                 new DisplayDensity(sinogramFTRe, N, "Filtered sinogram");
+
+
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
         double [] [] backProjection = new double [N] [N] ;
-        backProject(backProjection, sinogramFTRe) ;
+        backProject(backProjection, sinogram) ;
 
         // Normalize reconstruction, to have same sum as inferred for
         // original density
@@ -114,8 +117,7 @@ public class Sinogram {
 
         DisplayDensity display5 =
                 new DisplayDensity(backProjection, N,
-                        "Back projected sinogram",
-                        GREY_SCALE_LO, GREY_SCALE_HI) ;
+                        "Back projected sinogram") ;
     }
 
     static void backProject(double [] [] projection, double [] [] sinogram) {
