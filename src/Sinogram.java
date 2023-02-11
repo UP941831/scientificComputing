@@ -3,7 +3,10 @@ import java.util.Arrays ;
 
 import java.awt.* ;
 import javax.swing.* ;
-
+// Added Low pass cosine filter to completed code
+// Unfortunately im a bit thick so the solution is butchered
+//I used sinogramFTRe2 and sinogramFTIm2 to store the low pass cosine filtered sinogram under Filtering Code Starts Here
+//However the solution works
 
 public class Sinogram {
 
@@ -14,7 +17,7 @@ public class Sinogram {
     static final double SCALE = 0.0045 ;  // think of a better way to
     // parametrize this later...
 
-    static final int CUTOFF = N/4 ;  // in ramp filter
+    static final int CUTOFF = N/5 ;  // in ramp filter
 
     static final float GREY_SCALE_LO = 0.95f, GREY_SCALE_HI = 1.05f ;
     // Clipping, for display only.  See for example Figure 1 in:
@@ -66,23 +69,30 @@ public class Sinogram {
         double normDensity = norm1(sinogram [0]) ;
 
 
-        //Insert sinogram filtering code here!//////////////////////////////////////////////////////////////////////////
+        //SINOGRAM FILTERING CODE STARTS HERE////////////////////////////////////////////////////////////////////////
         double [] [] sinogramFTRe = new double [N] [N],
                 sinogramFTIm = new double [N] [N] ;
+        double [] [] sinogramFTRe2 = new double [N] [N],
+                sinogramFTIm2 = new double [N] [N] ;
+
         for(int iTheta = 0 ; iTheta < N ; iTheta++) {
             for(int iR = 0 ; iR < N ; iR++) {
                 sinogramFTRe [iTheta] [iR] = sinogram [iTheta] [iR] ;
+                sinogramFTRe2 [iTheta] [iR] = sinogram [iTheta] [iR] ;
             }
         }
 
         for(int iTheta = 0 ; iTheta < N ; iTheta++) {
-             //1D fast fourier transform on a row
-            FFT.fft1d(sinogramFTRe[iTheta], sinogramFTIm[iTheta], 1);
+            FFT.fft1d(sinogramFTRe[iTheta], sinogramFTIm[iTheta], 1); // 1D FFT of Sinogram
+            FFT.fft1d(sinogramFTRe2[iTheta], sinogramFTIm2[iTheta], 1); // 1D FFT of Sinogram Low pass Cosine
+
         }
 
         DisplaySinogramFT display3 =
                 new DisplaySinogramFT(sinogramFTRe, sinogramFTIm, N,
                         "Sinogram radial Fourier Transform") ;
+
+
 
         for(int iTheta = 0 ; iTheta < N ; iTheta++) {
             for(int iK = 0 ; iK < N ; iK++) {
@@ -90,20 +100,31 @@ public class Sinogram {
                 // multiply Sinogram fourier transform by abs(kSigned)
                 sinogramFTRe [iTheta] [iK] *= Math.abs(kSigned) ;
                 sinogramFTIm [iTheta] [iK] *= Math.abs(kSigned) ;
+                //Low Pass Cosine Filter here     |K| cos(πK/(2 CUTOFF))
+                sinogramFTRe2 [iTheta] [iK] *= Math.abs(kSigned) ;
+                sinogramFTIm2 [iTheta] [iK] *= Math.abs(kSigned) ;
+                sinogramFTRe2 [iTheta] [iK] *= Math.cos(Math.PI * kSigned / (2 * CUTOFF));
+                sinogramFTIm2 [iTheta] [iK] *= Math.cos(Math.PI * kSigned / (2 * CUTOFF));
 
             }
         }
+        for(int iTheta = 0 ; iTheta < N ; iTheta++) {
+            FFT.fft1d(sinogramFTRe[iTheta], sinogramFTIm[iTheta], -1); // Inverterd FFT on the sinogram over iTheta
+            FFT.fft1d(sinogramFTRe2[iTheta], sinogramFTIm2[iTheta], -1); // Inverterd FFT on the sinogram over iTheta
+
+        }
 
         DisplayDensity display6 =
-                new DisplayDensity(sinogramFTRe, N, "Filtered sinogram");
+                new DisplayDensity(sinogramFTRe, N, "Filtered sinogram") ;
 
-
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
+        DisplayDensity display7 =
+                new DisplayDensity(sinogramFTRe2, N, "Filtered sinogram, Low Pass Cosine Filter") ;
 
         double [] [] backProjection = new double [N] [N] ;
-        backProject(backProjection, sinogram) ;
+        backProject(backProjection, sinogramFTRe) ;
+
+        double [] [] backProjection2 = new double [N] [N] ;
+        backProject(backProjection2, sinogramFTRe2) ;
 
         // Normalize reconstruction, to have same sum as inferred for
         // original density
@@ -115,9 +136,25 @@ public class Sinogram {
             }
         }
 
+        double factor2 = normDensity / norm2(backProjection2) ;
+        for(int i = 0 ; i < N ; i++) {
+            for(int j = 0 ; j < N ; j++) {
+                backProjection2 [i] [j] *= factor2 ;
+            }
+        }
+
         DisplayDensity display5 =
                 new DisplayDensity(backProjection, N,
-                        "Back projected sinogram") ;
+                        "Back projected sinogram",
+                        GREY_SCALE_LO, GREY_SCALE_HI) ;
+
+        DisplayDensity display8 =
+                new DisplayDensity(backProjection2, N,
+                        "Back projected sinogram, Low Pass Cosine Filter",
+                        GREY_SCALE_LO, GREY_SCALE_HI) ;
+
+
+
     }
 
     static void backProject(double [] [] projection, double [] [] sinogram) {
