@@ -17,7 +17,7 @@ public class Sinogram {
     static final double SCALE = 0.0045 ;  // think of a better way to
     // parametrize this later...
 
-    static final int CUTOFF = N/5 ;  // in ramp filter
+    static final int CUTOFF = N/8 ;  // in ramp filter
 
     static final float GREY_SCALE_LO = 0.95f, GREY_SCALE_HI = 1.05f ;
     // Clipping, for display only.  See for example Figure 1 in:
@@ -100,11 +100,20 @@ public class Sinogram {
                 // multiply Sinogram fourier transform by abs(kSigned)
                 sinogramFTRe [iTheta] [iK] *= Math.abs(kSigned) ;
                 sinogramFTIm [iTheta] [iK] *= Math.abs(kSigned) ;
+                //zero components with Math.abs(kSigned) > CUTOFF
+                if (Math.abs(kSigned) > CUTOFF){
+                    sinogramFTRe [iTheta] [iK] = 0;
+                    sinogramFTIm [iTheta] [iK] = 0;
+                }
                 //Low Pass Cosine Filter here     |K| cos(πK/(2 CUTOFF))
                 sinogramFTRe2 [iTheta] [iK] *= Math.abs(kSigned) ;
                 sinogramFTIm2 [iTheta] [iK] *= Math.abs(kSigned) ;
                 sinogramFTRe2 [iTheta] [iK] *= Math.cos(Math.PI * kSigned / (2 * CUTOFF));
                 sinogramFTIm2 [iTheta] [iK] *= Math.cos(Math.PI * kSigned / (2 * CUTOFF));
+                if (Math.abs(kSigned) > CUTOFF){
+                    sinogramFTRe2 [iTheta] [iK] = 0;
+                    sinogramFTIm2 [iTheta] [iK] = 0;
+                }
 
             }
         }
