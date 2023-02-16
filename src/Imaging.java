@@ -26,11 +26,7 @@ public class Imaging {
         // Read data from "vis-and-uv.txt"
 
         BufferedReader in = new BufferedReader(
-<<<<<<< HEAD
                 new InputStreamReader(new FileInputStream("C:\\Users\\dangr\\OneDrive\\Desktop\\Coding\\InteliJ - Java\\ScientificComputing\\src\\vis-and-uv.txt"))) ;
-=======
-                new InputStreamReader(new FileInputStream("vis-and-uv.txt"))) ;
->>>>>>> origin/master
 
         // FT of visibilities
 
