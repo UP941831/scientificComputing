@@ -126,7 +126,7 @@ public class FHP {
                         }
                     }
                     else if(pop == 3) {
-                        // three way collisions
+                        // three-way collisions
                         if(fin_ij [0] && fin_ij [3] && fin_ij [4]) {
                             fout_ij [0] = false ;
                             fout_ij [1] = true ;
@@ -249,8 +249,8 @@ public class FHP {
             int [] tri_x = new int [3], tri_y = new int [3] ;
             for(int i = 0 ; i < NX ; i++) {
                 for(int j = 0 ; j < NY ; j++) {
-                    //boolean [] f_ij = fout [i] [j] ;
-                    boolean [] f_ij = fin [i] [j] ;
+                    boolean [] f_ij = fout [i] [j] ;
+                    //boolean [] f_ij = fin [i] [j] ;
                     int originX =
                             (int) (CELL_SIZE * i + 0.5 * CELL_SIZE * j +
                                     CELL_SIZE/2 + 0.5) % displaySizeX;
@@ -258,7 +258,7 @@ public class FHP {
                             (int) (ROW_HEIGHT * (CELL_SIZE * j + CELL_SIZE/2) + 0.5) ;
 
                     g.setColor(Color.PINK) ;
-                    //g.setColor(Color.LIGHT_GRAY) ;
+                    g.setColor(Color.LIGHT_GRAY) ;
                     g.fillOval(originX - 2, originY - 2, 4, 4) ;
 
                     g.setColor(Color.BLUE) ;
@@ -269,7 +269,7 @@ public class FHP {
                         tri_y [0] = originY - ARROW_WIDE ;
                         tri_y [1] = originY + ARROW_WIDE ;
                         tri_y [2] = originY ;
-                        //g.setColor(Color.BLUE) ;
+                        g.setColor(Color.BLUE) ;
                         g.fillPolygon(tri_x, tri_y, 3) ;
                     }
                     if(f_ij [1]) {
@@ -279,7 +279,7 @@ public class FHP {
                         tri_y [0] = originY - ARROW_WIDE ;
                         tri_y [1] = originY + ARROW_WIDE ;
                         tri_y [2] = originY ;
-                        //g.setColor(Color.RED) ;
+                        g.setColor(Color.RED) ;
                         g.fillPolygon(tri_x, tri_y, 3) ;
                     }
                     if(f_ij [2]) {
@@ -289,7 +289,7 @@ public class FHP {
                         tri_y [0] = originY - DIAG_Y_0 ;
                         tri_y [1] = originY - DIAG_Y_1 ;
                         tri_y [2] = originY - DIAG_Y_2 ;
-                        //g.setColor(Color.ORANGE) ;
+                        g.setColor(Color.ORANGE) ;
                         g.fillPolygon(tri_x, tri_y, 3) ;
                     }
                     if(f_ij [3]) {
@@ -299,15 +299,15 @@ public class FHP {
                         tri_y [0] = originY + DIAG_Y_0 ;
                         tri_y [1] = originY + DIAG_Y_1 ;
                         tri_y [2] = originY + DIAG_Y_2 ;
-/*
+
                         tri_x [0] = originX + 1 - 2 ;
                         tri_x [1] = originX + 1 + 2 ;
                         tri_x [2] = originX + 4 ;
                         tri_y [0] = originY + 2 + 2 ;
                         tri_y [1] = originY + 2 - 2 ;
                         tri_y [2] = originY + 6 ;
-*/
-                        //g.setColor(Color.MAGENTA) ;
+
+                        g.setColor(Color.MAGENTA) ;
                         g.fillPolygon(tri_x, tri_y, 3) ;
                     }
                     if(f_ij [4]) {
@@ -317,7 +317,7 @@ public class FHP {
                         tri_y [0] = originY - DIAG_Y_0 ;
                         tri_y [1] = originY - DIAG_Y_1 ;
                         tri_y [2] = originY - DIAG_Y_2 ;
-                        //g.setColor(Color.GREEN) ;
+                        g.setColor(Color.GREEN) ;
                         g.fillPolygon(tri_x, tri_y, 3) ;
                     }
                     if(f_ij [5]) {
@@ -327,7 +327,7 @@ public class FHP {
                         tri_y [0] = originY + DIAG_Y_0 ;
                         tri_y [1] = originY + DIAG_Y_1 ;
                         tri_y [2] = originY + DIAG_Y_2 ;
-                        //g.setColor(Color.YELLOW) ;
+                        g.setColor(Color.YELLOW) ;
                         g.fillPolygon(tri_x, tri_y, 3) ;
                     }
                 }
