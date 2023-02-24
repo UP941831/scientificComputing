@@ -57,13 +57,13 @@ public class HPP {
                     // initialize - staged head on collision in x direction.
                     fin[NX/2+1] [NY/2] [0] = true;
                     fin[NX/2-1] [NY/2] [1] = true;
-
-                    if(fin_ij [0] && fin_ij [1]) {
+                    //make only the states
+                    if(fin_ij [0] && fin_ij [1] && ! fin_ij[2] && ! fin_ij[3]) { //and
                         fout_ij [0] = false ;
                         fout_ij [1] = false ;
                         fout_ij [2] = true ;
                         fout_ij [3] = true ;
-                    }else if(fin_ij [2] && fin_ij [3]) {
+                    }else if(fin_ij [2] && fin_ij [3]&& ! fin_ij[0] && ! fin_ij[1]) {
                         fout_ij [0] = true ;
                         fout_ij [1] = true ;
                         fout_ij [2] = false ;
@@ -86,10 +86,10 @@ public class HPP {
 
                     // no streaming case:
 
-                    fin [i] [j] [0] = fout [i] [j] [0] ;
-                    fin [i] [j] [1] = fout [i] [j] [1] ;
-                    fin [i] [j] [2] = fout [i] [j] [2] ;
-                    fin [i] [j] [3] = fout [i] [j] [3] ;
+//                    fin [i] [j] [0] = fout [i] [j] [0] ;
+//                    fin [i] [j] [1] = fout [i] [j] [1] ;
+//                    fin [i] [j] [2] = fout [i] [j] [2] ;
+//                    fin [i] [j] [3] = fout [i] [j] [3] ;
 
                     // please add streaming as per lecture!
                     //streaming using HPP model
@@ -197,3 +197,4 @@ public class HPP {
     }
 }
 
+//bitwise operations, implementation
