@@ -3,7 +3,7 @@ public class FFTImageFiltering {
     public static int N = 256 ;
 
     public static void main(String [] args) throws Exception {
-
+        long startTime = System.currentTimeMillis();
         double[][] X = new double[N][N];
         ReadPGM.read(X, "C:\\Users\\dangr\\OneDrive\\Desktop\\Coding\\InteliJ - Java\\ScientificComputing\\src\\wolf.pgm", N);
 
@@ -36,6 +36,9 @@ public class FFTImageFiltering {
         fft2d(reconRe, reconIm, -1);  // Inverse Fourier transform
 
         DisplayDensity display3 = new DisplayDensity(reconRe, N, "Reconstructed Image");
+        long endTime   = System.currentTimeMillis();
+        long totalTime = endTime - startTime;
+        System.out.println(totalTime+" ms");
     }
 
     // in place matrix transpose
