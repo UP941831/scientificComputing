@@ -12,7 +12,7 @@ public class Sinogram {
 
     static final int N = 512 ;
 
-    static final int CELL_SIZE = 1 ;
+    static final int CELL_SIZE = 4 ;
 
     static final double SCALE = 0.0045 ;  // think of a better way to
     // parametrize this later...

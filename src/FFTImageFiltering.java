@@ -38,7 +38,7 @@ public class FFTImageFiltering {
         DisplayDensity display3 = new DisplayDensity(reconRe, N, "Reconstructed Image");
         long endTime   = System.currentTimeMillis();
         long totalTime = endTime - startTime;
-        System.out.println(totalTime+" ms");
+        System.out.println("Completed in: "+totalTime+" ms");
     }
 
     // in place matrix transpose

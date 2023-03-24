@@ -19,6 +19,7 @@ public class Imaging {
     static final float WAVELENGTH = 2.15f ; // meters
 
     public static void main(String [] args) throws IOException {
+        long startTime = System.currentTimeMillis();
 
         float reVis, imVis ;
         float U, V ;
@@ -101,13 +102,17 @@ public class Imaging {
         DisplayDensity display3 =
                 new DisplayDensity(dirtyBeam, N,
                         "Point spread function") ;
+
+        long endTime   = System.currentTimeMillis();
+        long totalTime = endTime - startTime;
+        System.out.println("Completed imaging in: "+totalTime+" ms");
     }
 }
 
 class DisplayUV extends JPanel {
 
     public static int N = 512 ;
-    public static int CELL_SIZE = 1 ;
+    public static int CELL_SIZE = 2 ;
 
     float limit ;
 

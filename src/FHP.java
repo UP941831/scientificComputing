@@ -4,11 +4,11 @@ import javax.swing.* ;
 
 public class FHP {
 
-    final static int NX = 80, NY = 60 ;  // Lattice dimensions
-    final static int q = 6 ;  // population
+    final static int NX = 100, NY = 100 ;  // Lattice dimensions
+    final static int q = 7 ;  // population
 
     final static int NITER = 1000 ;
-    final static int DELAY = 500 ;
+    final static int DELAY = 50 ;
 
     final static double DENSITY = 1.0 ;  // initial state, between 0 and 1.0.
 
@@ -243,7 +243,7 @@ public class FHP {
 
         public void paintComponent(Graphics g) {
 
-            g.setColor(Color.WHITE) ;
+            g.setColor(Color.BLACK) ;
             g.fillRect(0, 0, CELL_SIZE * NX, CELL_SIZE * NY) ;
 
             int [] tri_x = new int [3], tri_y = new int [3] ;
@@ -257,11 +257,11 @@ public class FHP {
                     int originY =
                             (int) (ROW_HEIGHT * (CELL_SIZE * j + CELL_SIZE/2) + 0.5) ;
 
-                    g.setColor(Color.PINK) ;
-                    g.setColor(Color.LIGHT_GRAY) ;
-                    g.fillOval(originX - 2, originY - 2, 4, 4) ;
+                    g.setColor(Color.BLACK) ;
+                    g.setColor(Color.BLACK) ;
+                    g.fillOval(originX, originY, 5, 5); ;
 
-                    g.setColor(Color.BLUE) ;
+                    g.setColor(Color.BLACK) ;
                     if(f_ij [0]) {
                         tri_x [0] = originX - ARROW_START ;
                         tri_x [1] = originX - ARROW_START ;
@@ -269,8 +269,8 @@ public class FHP {
                         tri_y [0] = originY - ARROW_WIDE ;
                         tri_y [1] = originY + ARROW_WIDE ;
                         tri_y [2] = originY ;
-                        g.setColor(Color.BLUE) ;
-                        g.fillPolygon(tri_x, tri_y, 3) ;
+                        g.setColor(Color.GRAY) ;
+                        g.fillOval(tri_x[0], tri_y[1], 4,4); ;
                     }
                     if(f_ij [1]) {
                         tri_x [0] = originX + ARROW_START ;
@@ -279,8 +279,8 @@ public class FHP {
                         tri_y [0] = originY - ARROW_WIDE ;
                         tri_y [1] = originY + ARROW_WIDE ;
                         tri_y [2] = originY ;
-                        g.setColor(Color.RED) ;
-                        g.fillPolygon(tri_x, tri_y, 3) ;
+                        g.setColor(Color.GRAY) ;
+                        g.fillOval(tri_x[0], tri_y[1], 3,3); ;
                     }
                     if(f_ij [2]) {
                         tri_x [0] = originX - DIAG_X_0 ;
@@ -289,8 +289,9 @@ public class FHP {
                         tri_y [0] = originY - DIAG_Y_0 ;
                         tri_y [1] = originY - DIAG_Y_1 ;
                         tri_y [2] = originY - DIAG_Y_2 ;
-                        g.setColor(Color.ORANGE) ;
-                        g.fillPolygon(tri_x, tri_y, 3) ;
+                        g.setColor(Color.GRAY) ;
+                        g.fillOval(tri_x[0], tri_y[1], 3,3); ;
+
                     }
                     if(f_ij [3]) {
                         tri_x [0] = originX + DIAG_X_0 ;
@@ -307,8 +308,9 @@ public class FHP {
                         tri_y [1] = originY + 2 - 2 ;
                         tri_y [2] = originY + 6 ;
 
-                        g.setColor(Color.MAGENTA) ;
-                        g.fillPolygon(tri_x, tri_y, 3) ;
+                        g.setColor(Color.GRAY) ;
+                        g.fillOval(tri_x[0], tri_y[1], 5,5); ;
+
                     }
                     if(f_ij [4]) {
                         tri_x [0] = originX + DIAG_X_0 ;
@@ -317,8 +319,9 @@ public class FHP {
                         tri_y [0] = originY - DIAG_Y_0 ;
                         tri_y [1] = originY - DIAG_Y_1 ;
                         tri_y [2] = originY - DIAG_Y_2 ;
-                        g.setColor(Color.GREEN) ;
-                        g.fillPolygon(tri_x, tri_y, 3) ;
+                        g.setColor(Color.GRAY) ;
+                        g.fillOval(tri_x[0], tri_y[1], 3,3); ;
+
                     }
                     if(f_ij [5]) {
                         tri_x [0] = originX - DIAG_X_0 ;
@@ -327,8 +330,9 @@ public class FHP {
                         tri_y [0] = originY + DIAG_Y_0 ;
                         tri_y [1] = originY + DIAG_Y_1 ;
                         tri_y [2] = originY + DIAG_Y_2 ;
-                        g.setColor(Color.YELLOW) ;
-                        g.fillPolygon(tri_x, tri_y, 3) ;
+                        g.setColor(Color.GRAY) ;
+                        g.fillOval(tri_x[0], tri_y[1], 3,3); ;
+
                     }
                 }
             }

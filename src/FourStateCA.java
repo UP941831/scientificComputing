@@ -4,34 +4,37 @@ import javax.swing.*;
 
 
 // 0 - Resting
-// 2 - Excited 
+// 2 - Excited
 // 1 - Recovering
 
-public class SimpleThreeStateCA {
+public class FourStateCA {
 
-    final static int N = 100;
+    final static int N = 200;
     final static int CELL_SIZE = 5;
-    final static int DELAY = 100;
+    final static int DELAY = 10;
 
     static int[][] state = new int[N][N];
 
     static boolean[][] excitedNeighbour = new boolean[N][N];
 
+    static int[][] timeToStateChange = new int[N][N];
+
+
     static Display display = new Display();
 
     public static void main(String args[]) throws Exception {
 
-        // Plane wave
+        // Initial state in the centre of the grid and in one corner
         /*for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
                 state[i][j] = j == N - 1 ? 2 : 0;
             }
         }*/
-        // Initial state in the centre of the grid and in one corner
+
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                state[i][j] = (i == N / 2 && j == N / 2) || (i == 0 && j == 0) ? 2 : 0;
-            }
+                state[i][j] = j == N - 1 ? 3 : 0;
+                timeToStateChange[i][j] = 0;            }
         }
 
         display.repaint();
@@ -48,8 +51,10 @@ public class SimpleThreeStateCA {
                 for (int i = 0; i < N / 2; i++) {
                     for (int j = 0; j < N; j++) {
                         state[i][j] = 0;
+                        timeToStateChange[i][j] = 0;
                     }
                 }
+
             }
 
             // Calculate which cells have excited neighbnours.
@@ -67,7 +72,11 @@ public class SimpleThreeStateCA {
                             = state[i][jp] == 2
                             || state[i][jm] == 2
                             || state[ip][j] == 2
-                            || state[im][j] == 2;
+                            || state[im][j] == 2
+                            || state[i][jp] == 3
+                            || state[i][jm] == 3
+                            || state[ip][j] == 3
+                            || state[im][j] == 3;
                 }
             }
 
@@ -80,16 +89,37 @@ public class SimpleThreeStateCA {
                 for (int j = 0; j < N; j++) {
                     switch (state[i][j]) {
                         case 0:
-                            if (excitedNeighbour[i][j]) {
-                                state[i][j] = 2;
+                            if(excitedNeighbour[i][j]) {
+                                state[i][j] = 3;
+                                timeToStateChange[i][j] = 2;
+                            }
+                            break;
+
+                        case 1:
+                            if(timeToStateChange[i][j] == 0) {
+                                state[i][j] = 0;
+                                timeToStateChange[i][j] = 0;
+                            } else {
+                                timeToStateChange[i][j]--;
                             }
                             break;
                         case 2:
-                            state[i][j] = 1;
+                            if(timeToStateChange[i][j] == 0) {
+                                state[i][j] = 1;
+                                timeToStateChange[i][j] = 3;
+                            } else {
+                                timeToStateChange[i][j]--;
+                            }
                             break;
-                        default: // 1
-                            state[i][j] = 0;
+                        case 3:
+                            if(timeToStateChange[i][j] == 0) {
+                                state[i][j] = 2;
+                                timeToStateChange[i][j] = 3;
+                            } else {
+                                timeToStateChange[i][j]--;
+                            }
                             break;
+
                     }
                 }
             }
